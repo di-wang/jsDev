@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Ron Swanson Quote</title>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ status }}</p>
+    </div>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          status: ''
+        },
+        created: function () {
+          this.loadQuote();
+        },
+        methods: {
+          loadQuote: function () {
+            this.status = 'Loading...';
+            var vm = this;
+            axios.get('http://ron-swanson-quotes.herokuapp.com/v2/quotes')
+              .then(function (response) {
+                vm.status = response.data[0];
+              })
+              .catch(function (error) {
+                vm.status = 'Sorry! An error occurred: ' + error;
+              });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
